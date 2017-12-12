@@ -14,7 +14,6 @@ def print_response(f):
 
     return wrapped_f
 
-
 @print_response
 def get_file_with_path(_id):
     msg = {'_id': _id}
