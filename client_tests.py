@@ -1,4 +1,4 @@
-#!/Users/richie/miniconda3/bin/python3
+#!/urs/local/bin/python3
 
 import requests
 
