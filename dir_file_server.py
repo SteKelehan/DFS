@@ -9,11 +9,13 @@ from local_file_server import local_file_server
 class dir_file_server():
     def __init__(self):
         self.machine_id_counter = 1
-        self.machines = defaultdict(list)
+        self.machines = defaultdict(dict)
         # machines = {
-        #         id1 : [file_id1, file_id2],
-        #         id2 : [file_id3, file_id4],
-        #         id3 : [file_id5, file_id6]        
+        #         id1 = { 
+                        # 'files' :[file_server_id1, file_server_id2],
+                        # 'name' : name
+                        # 'id' : _id
+                        # },
         #         }
 
 
@@ -24,9 +26,17 @@ class dir_file_server():
         else:
             return None
 
+        all_files_servers = []
         all_files = []
+        if 'show_files' in message:
 
         # get files on all machines
+        for mahcine in machines:
+            for server in machine:
+                
+                all_files_servers.append(server)
+        
+            
         # call get files on all files
 
         # return list of file info -> name 
@@ -35,8 +45,17 @@ class dir_file_server():
 
 def add_dir(self, *args, **kwargs):
     # parse args
+    if 'message' in kwargs and kwargs['message'] is not None:
+        message = kwargs['message']
+    else:
+        return None
 
-    # add machine 
+    if 'name' in message: 
+        new_dir = {}
+        
+   
+
+
     pass
 
 def get_one_dir_form_name(self,name, *args, **kwards):

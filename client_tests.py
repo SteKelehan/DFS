@@ -3,6 +3,7 @@
 import requests
 
 address = 'http://127.0.0.1:8050/files/'
+addressdir = 'https://127.0.0.1:8050/dirs/'
 
 
 def print_response(f):
