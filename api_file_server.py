@@ -8,9 +8,11 @@ from local_file_server import local_file_server
 app = Flask(__name__)
 api = Api(app)
 
+# This class Api deals with individual files 
 
 class file_server_api(Resource):
     def __init__(self):
+        # allowing access to insitence of local file server
         global file_server
         self.file_server = file_server
         self.reqparse = reqparse.RequestParser()
@@ -53,8 +55,46 @@ class file_server_api(Resource):
             return {'error': 'file not deleted'}
 
 
-api.add_resource(file_server_api, '/files/<int:_id>', endpoint='files')
+# going to adda boolean for locking server
+# 'done': fields.Boolean,
+file_fields = {
+    'name': fields.String,
+    'uri': fields.Url('task')
+}
+
+class file_api(Resouurce):
+    def __init__(self):
+        # alowing acess to local file serve
+        global file_server
+        self.reqparse = reqparse.RequestParser()
+        self.reqparse.add_argument('message', type = dict, location='json')
+        super(file_api, self).__init__()
+    
+   # Get all files from server 
+   def get(self):
+       kwargs = self.reqparse.parse_args()
+       if self.files is None:
+           return {'error':'No files on file server'}
+       else:
+           return {'files' : [marshal(file_, file_fields) for file_ in self.files]}
+    
+    # This deletes the file sever - not sure if will be NotImplemented
+    def delete(self):
+        kwargs = self.reqparse.parse_args()
+        if self.files is None:
+            return {'error' : 'Server is alreay empty'}
+        else:
+            return
+
+
+            
+
+
+
+api.add_resource(file_api, '/file/<int:_id>', endpoint='file')
+api.add_resource(file_server_api, '/files/', endpoint='files')
 
 if __name__ == '__main__':
     file_server = local_file_server()
-    app.run(host='0.0.0.0', debug=True, port=8050)
+    port = sys.args[1]
+    app.run(host='0.0.0.0', debug=True, port=int(port))

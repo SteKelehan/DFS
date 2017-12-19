@@ -47,11 +47,30 @@ class dir_server_api(Resource):
 
     def delete(self, _id):
         # tbd
+        kwargs = self.reaparse.parse_args()
+        this_dir = self.dir_server.delete(**kwargs)
+        if this_dir is not None:
+            return {'delete dir' : this_dir}
+        else:
+            return {'error':'dir could not be deleted'}
         pass
 
+class dir_find(Resource):
+    def __init__(self):
+        super(dir_find, self).__init__()
 
-api.add_resource(dir_server_api, '/dirs/<string:name>',endpoint= 'dirs')
+class dir_files(Resource):
+    def __init_-(self):
+        super(dir_files, self).__init__()
+        
+
+api.add_resource(dir_server_api, '/dir/<string:name>',endpoint= 'dir')
+api.add_resource(dir_find, '/dir/find',endpoint= 'find')
+api.add_resource(dir_files , '/dir/file/',endpoint= 'file')
+
+
+
 
 if __name__ == '__main__':
     dir_server = dir_file_server()
-    app.run(host = '0.0.0.0', debug=True, port=8050)
+    app.run(host = '0.0.0.0', debug=True, port=8080)

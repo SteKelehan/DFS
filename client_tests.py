@@ -5,20 +5,18 @@ import requests
 address = 'http://127.0.0.1:8050/files/'
 addressdir = 'https://127.0.0.1:8050/dirs/'
 
-
+# Descirater
 def print_response(f):
     def wrapped_f(*args, **kwargs):
         r = f(*args, **kwargs)
         print(r)
         print(r.json())
         return r
-
     return wrapped_f
 
 @print_response
 def get_file_with_path(_id):
     msg = {'_id': _id}
-    # msg = {k: v for k, v in msg.items()}
     return requests.get(address + "0", json={'message': msg})
 
 
