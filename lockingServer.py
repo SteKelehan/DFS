@@ -1,41 +1,51 @@
 #!/usr/local/bin/python3
 
+# NOTE: Used so two clients can not edit a file at one time! 
 
 class lockingserver():
     def __init__(self):
         self.fileslocked = []
     
-    def lock_file(self, _id, *args, *kwargs):
-        if _id is not None:
-            if _id in self.fileslocked:
-                return {'error' : 'file locked '}
-            else:
-                self.fileslocked.append(_id)
-                return {'locked' : _id}
+    def lock_file(self, *args, **kwargs):
+        if 'message' in kwargs and kwargs['message'] is not None:
+            message = kwargs['message']
         else:
-            return {'error' : 'file id is not valid'}
+            return None
 
-    def unlock_file(self, _id, *args, **kwargs):
+        if message['_id'] is not None:
+            if message['_id'] in self.fileslocked:
+                return 'file locked'
+            else:
+                self.fileslocked.append(message['_id'])
+                return 'locked'
+        else:
+            return None
+
+    def unlock_file(self, *args, **kwargs):
+        if 'message' in kwargs and kwargs['message'] is not None:
+            message = kwargs['message']
+        else:
+            return None
+
+        _id = message['_id']
         if _id is not None:
             if _id in self.fileslocked:
                 for i in range(len(self.fileslocked) - 1):
                     if 3 == self.fileslocked[i]:
                         del self.fileslocked[i]
-                        return {'file unlocked' : _id}
+                        return 'file unlocked'
             else:
-                return {'error' : 'file is not locked'}
+                return 'file is not locked'
         else:
-            return {'error' : 'file id was None'}
+            return None 
 
     def check_files_locked(self, _id, *args, **kwargs):
         if _id is not None:
             if _id in self.fileslocked:
-                return {'locked' : _id}
+                return 'locked'
             else:
-                return {'not locked' : _id}
+                return 'not locked'
         else:
-            return {'error' : 'file id is not vailid'}
+            return None
         
-# if __name__ == '__man__':
-    # print('Dont thin I will need a main, but here you go')
 

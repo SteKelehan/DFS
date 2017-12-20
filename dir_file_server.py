@@ -2,10 +2,9 @@
 
 import requests
 from collections import defaultdict
-import json
-from local_file_server import local_file_server 
 
 # TODO: make file's get id from dir server 
+
 
 class dir_file_server():
     def __init__(self):

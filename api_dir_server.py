@@ -15,7 +15,6 @@ api = Api(app)
 # lock file (when editing)
 
 
-
 class dir_server_api(Resource):
     def __init__(self):
         global dir_server
@@ -27,8 +26,6 @@ class dir_server_api(Resource):
     def get(self):
         kwargs = self.reqparse.parse_args()
         return {'message' : self.dir_server.get_file(**kwargs)}
-
-    
 
 
 class dir_add(Resource):
@@ -60,7 +57,6 @@ class dir_add(Resource):
         
 api.add_resource(dir_server_api, '/dir/', endpoint='dir')
 api.add_resource(dir_add, '/dir/add', endpoint='add')
-
 
 
 if __name__ == '__main__':

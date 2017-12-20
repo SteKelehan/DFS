@@ -14,8 +14,11 @@ api = Api(app)
 # delete file
 # serach file
 
+# TODO: Commint
 
 # This class Api deals with individual files 
+
+
 class file_api(Resouurce):
     def __init__(self):
         # allowing access to insitence of local file server
@@ -97,5 +100,6 @@ api.add_resource(file_server_api, '/files/', endpoint='files')
 if __name__ == '__main__':
     # user chooses ID and port
     file_server = local_file_server(sys.args[2])
+    file_server.add_to_server()
     port = sys.args[1]
     app.run(host='0.0.0.0', debug=True, port=int(port))

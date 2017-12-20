@@ -6,7 +6,7 @@ Student Number: 14316006<br />
 
 ## Project
 
-This project was to construct a simple distributed file system.
+This project was to construct a simple distributed file system. 
 
 ### Choice to implement the following
 * Distributed Transparent File Access
@@ -20,7 +20,8 @@ There are multiple python scrips, they are explained below.
 
 ### File Server
 
-TODO: explain code
+The file server was split into two scrips, one acts as the local machine and the other interacts with the other nodes.<br />
+The API was forther split into two blocks of code alowing one blolk to control the individual files. 
 
 ### Directory Server
 
