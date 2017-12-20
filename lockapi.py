@@ -26,9 +26,9 @@ class locking_server_api():
         else:
             this_dir = self.dir_server.get_one_dir_form_args(**kwargs)
         if this_dir is not None:
-            return {'retrived dir' : this_dir}
+            return {'retrived dir': this_dir}
         else:
-            return {'error' : 'directory not found'}
+            return {'error': 'directory not found'}
 
     # going to try and lock a file 
     def post(self, _id):
@@ -38,7 +38,7 @@ class locking_server_api():
             if 'locked' in self.lock:
                 return {'file locked': _id}
             elif 'file locked'
-                return {'error' : 'file could not be locked as already locked!' + ' id: 'str(_id)}
+                return {'error': 'file could not be locked as already locked!' + ' id: 'str(_id)}
         else:
             return {'error': 'No message'}
 
@@ -50,17 +50,15 @@ class locking_server_api():
             if 'file unlocked' in self.unlock:
                 return {'file unlocked': _id}
             else:
-                return {'error' : 'file could not be unlocked'}
+                return {'error': 'file could not be unlocked'}
         else:
-            return {'error' : 'Message was empty'}
+            return {'error': 'Message was empty'}
 
-
-
-
-api.add_resource(locking_server_api, '/locked',endpoint= 'locked')
+api.add_resource(locking_server_api, '/locked',endpoint='locked')
 
 if __name__ == '__main__':
     lockserver = lockingserver()
+
     app.run(host = '0.0.0.0', debug=True, port=8050)
 
 

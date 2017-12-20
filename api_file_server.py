@@ -8,9 +8,15 @@ from local_file_server import local_file_server
 app = Flask(__name__)
 api = Api(app)
 
-# This class Api deals with individual files 
+# check if files on dir server
+# add file
+# edit file
+# delete file
+# serach file
 
-class file_server_api(Resource):
+
+# This class Api deals with individual files 
+class file_api(Resouurce):
     def __init__(self):
         # allowing access to insitence of local file server
         global file_server
@@ -19,17 +25,19 @@ class file_server_api(Resource):
         self.reqparse.add_argument('message', type=dict, location='json')
         super(file_server_api, self).__init__()
 
+    # gets a particular file with id or names 
     def get(self, _id):
         kwargs = self.reqparse.parse_args()
         if _id != 0:
             this_file = self.file_server.get_one_file_from_id(_id, **kwargs)
         else:
-            this_file = self.file_server.get_one_file_from_args(**kwargs)
+            this_file = self.file_server.get_one_files_from_args(**kwargs)
         if this_file is not None:
             return {'retrieved file': this_file}
         else:
             return {'error': 'file not found'}
 
+    # this adds a file to the file server 
     def post(self, _id):
         kwargs = self.reqparse.parse_args()
         this_file = self.file_server.add_file(**kwargs)
@@ -37,6 +45,8 @@ class file_server_api(Resource):
             return {'created file': this_file}
         else:
             return {'error': 'file not created'}
+
+    # This edits a file on the file server  
 
     def put(self, _id):
         kwargs = self.reqparse.parse_args()
@@ -46,6 +56,7 @@ class file_server_api(Resource):
         else:
             return {'error': 'file not edited'}
 
+    # This removes a file 
     def delete(self, _id):
         kwargs = self.reqparse.parse_args()
         this_file = self.file_server.delete_file(_id, **kwargs)
@@ -62,15 +73,16 @@ file_fields = {
     'uri': fields.Url('task')
 }
 
-class file_api(Resouurce):
+
+class file_server_api(Resource):
     def __init__(self):
         # alowing acess to local file serve
         global file_server
         self.reqparse = reqparse.RequestParser()
-        self.reqparse.add_argument('message', type = dict, location='json')
+        self.reqparse.add_argument('message', type=dict, location='json')
         super(file_api, self).__init__()
     
-   # Get all files from server 
+# Get all files from server 
    def get(self):
        kwargs = self.reqparse.parse_args()
        if self.files is None:
@@ -78,23 +90,12 @@ class file_api(Resouurce):
        else:
            return {'files' : [marshal(file_, file_fields) for file_ in self.files]}
     
-    # This deletes the file sever - not sure if will be NotImplemented
-    def delete(self):
-        kwargs = self.reqparse.parse_args()
-        if self.files is None:
-            return {'error' : 'Server is alreay empty'}
-        else:
-            return
 
-
-            
-
-
-
-api.add_resource(file_api, '/file/<int:_id>', endpoint='file')
+api.add_resource(file_api, '/file/', endpoint='file')
 api.add_resource(file_server_api, '/files/', endpoint='files')
 
 if __name__ == '__main__':
-    file_server = local_file_server()
+    # user chooses ID and port
+    file_server = local_file_server(sys.args[2])
     port = sys.args[1]
     app.run(host='0.0.0.0', debug=True, port=int(port))

@@ -5,78 +5,81 @@ from collections import defaultdict
 import json
 from local_file_server import local_file_server 
 
+# TODO: make file's get id from dir server 
 
 class dir_file_server():
     def __init__(self):
-        self.machine_id_counter = 1
-        self.machines = defaultdict(dict)
-        # machines = {
-        #         id1 = { 
-                        # 'files' :[file_server_id1, file_server_id2],
-                        # 'name' : name
-                        # 'id' : _id
-                        # },
+        self.dir_id_counter = 1
+        self.dirs = defaultdict(list)
+        self.file_server = 'http://localhost:' 
+        # Has a list of file server Ids 
+        # dir = { 
+        #         id1 : [fileid1, fileid2, fileid3],
+        #         id2 : [fileid4, fileid5],
+        #         id3_: [fileid6, fileid7, fileid8]
         #         }
 
-
-    def get_files_on_all_servers(self, *args, **kwargs):
-        # parse args
+    def kwargs(self, **kwargs):
         if 'message' in kwargs and kwargs['message'] is not None:
-            message = kwargs['message']
+            return kwargs['message']
         else:
             return None
 
-        all_files_servers = []
-        all_files = []
-        if 'show_files' in message:
-
-        # get files on all machines
-        for mahcine in machines:
-            for server in machine:
-                
-                all_files_servers.append(server)
-        
+    def get_files_on_all_servers(self, *args, **kwargs):
+        message = self.kwargs(**kwargs)
+        if message is None:
+            return None
+        else:
+            add = []
+            for k in self.dirs.iterkeys():
+                x = requests.get(self.file_server + str(k) + '/files', **kwargs)
+                add.append(x)
+            return add
             
-        # call get files on all files
-
-        # return list of file info -> name 
-        pass
-    
-
-def add_dir(self, *args, **kwargs):
-    # parse args
-    if 'message' in kwargs and kwargs['message'] is not None:
-        message = kwargs['message']
-    else:
-        return None
-
-    if 'name' in message: 
-        new_dir = {}
-        
-   
+    # TODO!
+    def add_file_server(self, *args, **kwargs):
+        message = self.kwargs(**kwargs)
+        if message is None:
+            return None
+        else:
+            return requests.post()
 
 
-    pass
+    def add_one_file(self, args, **kwargs):
+        message = self.kwargs(**kwargs)
+        if message is None:
+            return None
+        else:
+            min = 300
+            for keys in self.file_server:
+                x = len(self.file_server[keys])
+                if x < min:
+                    min = x
+                    key = keys  
+            return requests.post(self.file_server + str(key) + '/file', **kwargs)
 
-def get_one_dir_form_name(self,name, *args, **kwards):
-    # parse args
+    def get_file(self, *args, **kwargs):
+        message = self.kwargs(**kwargs)
+        if message is None:
+            return None
+        else:
+            if '_id' in message and message['_id'] is not None:
+                # get key that file is in! -> gives file port
+                key = [k for k, v in self.dirs.iteritems() if message['_id'] in v]
+                key = key[0]
+                return requests.get(self.file_server + str(key) + '/file', json={'_id': message['_id']})
+            else:
+                if 'name' in message and message['name'] is not None:
+                    all_files = self.get_files_on_all_servers(message['name'])
+                    return all_files 
+                else:
+                    return None
 
-    # search for machine id and return 
-
-    pass
-
-def get_one_dir_form_args(self, *args, **kwargs):
-    pass
 
 
-def get_next_id(self):
-    next_id = self.machine_id_counter
-    self.machine_id_counter += 1
-    return next_id 
-
-def update_dir(self, _id, *args, **kwargs):
-    # tbc 
-    pass
+                
+                
+                
 
 
 
