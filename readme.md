@@ -25,19 +25,23 @@ The API was forther split into two blocks of code alowing one blolk to control t
 
 ### Directory Server
 
-TODO: explain code
+The Directory Server is just like the file sever in the way it is split into a lockal and an API.<br />
+The Directory is flat, meaning it only has one level.
+
 
 ### Locking Server
 
-TODO: explain code
+This is a Server that again like the previuos to is serperated into API and lockal.<br />
+It locks the files when a user is using it so it does not have any concurrency issues.
 
 ### Cache
 
-TODO: explain code
+The cache is set up in the client lib. It is a simple caching mechanisim whereby it keeps the most resent 10 files.<br />
+When a call is made by the users it the client lib will first check the local cache before fetching from the file server.
 
 ### Client Lib
 
-TODO: explain code
+This is the file that the users useses to access the files.
 
 ## Built With
 
